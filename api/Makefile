@@ -1,22 +1,22 @@
-ECHO 		=	printf
-CAT 		=	cat
+ECHO 	=	printf
+CAT 	=	cat
 RM      =	rm
-FIND 		=	find
-CPPFLAGS=	-ggdb -Wall -W -Wextra -O2 -D_REENTRANT
+FIND 	=	find
+CFLAGS	=	-ggdb -Wall -W -Wextra -O2 -D_REENTRANT
 LDFLAGS	= -lm -ldxl -lpthread
-CC   		= gcc
-LD			= gcc
+CC   	= gcc
+LD	= gcc
 
 SRCD = src
-INCD = -I../include
+INCD = -I../include -Iinclude
 OBJD = obj
 BIND = bin
 LIBD = -L../lib
 LIBS =
 
-EXEC 	=  LeapServer
-SRCS	=  $(wildcard $(SRCD)/*.cpp)
-OBJ		=  $(SRCS:.cpp=.o)
+EXEC 	=  DLM
+SRCS	=  $(wildcard $(SRCD)/*.c)
+OBJ	=  $(SRCS:.c=.o)
 OBJS 	:= $(addprefix $(OBJD)/, $(notdir $(OBJ)))
 
 default: $(BIND) $(OBJD) $(BIND)/$(EXEC)
@@ -25,9 +25,9 @@ $(BIND)/$(EXEC): $(OBJS)
 	@$(ECHO) "Linking ..\n"
 	$(LD) -o $@ $^ $(LDFLAGS) $(LIBD) $(LIBS)
 
-$(OBJD)/%.o: $(SRCD)/%.cpp
+$(OBJD)/%.o: $(SRCD)/%.c
 	@$(ECHO) "Compiling source file ..\n"
-	$(CC) -o $@ -c $< $(CPPFLAGS) $(INCD)
+	$(CC) -o $@ -c $< $(CFLAGS) $(INCD)
 
 $(OBJD):
 	@mkdir -p $(OBJD)
